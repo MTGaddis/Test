@@ -56,6 +56,9 @@ def guess_the_number():
     if attempts >= max_attempts:
         print("Game over! You have reached the maximum number of attempts.")
 
+    # Display high scores
+    show_high_scores(high_scores)
+
     play_again = input("Do you want to play again? (yes/no): ")
     if play_again.lower() == "yes":
         guess_the_number()
@@ -84,5 +87,11 @@ def save_high_scores(high_scores):
         writer.writerow(["Difficulty", "Attempts"])
         for difficulty, attempts in high_scores.items():
             writer.writerow([difficulty, attempts])
+
+def show_high_scores(high_scores):
+    print("High Scores:")
+    print("Difficulty\tAttempts")
+    for difficulty, attempts in high_scores.items():
+        print(f"{difficulty}\t\t{attempts}")
 
 guess_the_number()
