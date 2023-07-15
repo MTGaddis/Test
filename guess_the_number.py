@@ -16,9 +16,10 @@ def guess_the_number():
 
     min_range, max_range = difficulty_levels[selected_difficulty]
     random_number = random.randint(min_range, max_range)
+    max_attempts = 7  # Set the maximum number of attempts
     attempts = 0
 
-    while True:
+    while attempts < max_attempts:
         guess = input(f"Guess the number (between {min_range} and {max_range}): ")
 
         # Validate user input
@@ -40,6 +41,12 @@ def guess_the_number():
             print("Too low! Guess a higher number.")
         else:
             print("Too high! Guess a lower number.")
+
+        remaining_attempts = max_attempts - attempts
+        print(f"You have {remaining_attempts} attempts remaining.")
+
+    if attempts >= max_attempts:
+        print("Game over! You have reached the maximum number of attempts.")
 
     play_again = input("Do you want to play again? (yes/no): ")
     if play_again.lower() == "yes":
