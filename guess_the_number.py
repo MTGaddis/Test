@@ -1,6 +1,10 @@
 import random
+import csv
 
 def guess_the_number():
+    # Load high scores from a file
+    high_scores = load_high_scores()
+
     difficulty_levels = {
         "easy": (1, 100),
         "medium": (1, 500),
@@ -36,6 +40,10 @@ def guess_the_number():
 
         if guess == random_number:
             print(f"Congratulations! You guessed the number in {attempts} attempts.")
+
+            # Update high scores
+            update_high_scores(selected_difficulty, attempts, high_scores)
+
             break
         elif guess < random_number:
             print("Too low! Guess a higher number.")
@@ -53,5 +61,28 @@ def guess_the_number():
         guess_the_number()
     else:
         print("Thank you for playing!")
+
+    # Save high scores to a file
+    save_high_scores(high_scores)
+
+def load_high_scores():
+    try:
+        with open("high_scores.csv", mode="r") as file:
+            reader = csv.DictReader(file)
+            high_scores = {row["Difficulty"]: int(row["Attempts"]) for row in reader}
+    except FileNotFoundError:
+        high_scores = {}
+    return high_scores
+
+def update_high_scores(difficulty, attempts, high_scores):
+    if difficulty not in high_scores or attempts < high_scores[difficulty]:
+        high_scores[difficulty] = attempts
+
+def save_high_scores(high_scores):
+    with open("high_scores.csv", mode="w", newline="") as file:
+        writer = csv.writer(file)
+        writer.writerow(["Difficulty", "Attempts"])
+        for difficulty, attempts in high_scores.items():
+            writer.writerow([difficulty, attempts])
 
 guess_the_number()
