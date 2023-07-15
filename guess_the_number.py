@@ -19,7 +19,18 @@ def guess_the_number():
     attempts = 0
 
     while True:
-        guess = int(input(f"Guess the number (between {min_range} and {max_range}): "))
+        guess = input(f"Guess the number (between {min_range} and {max_range}): ")
+
+        # Validate user input
+        if not guess.isdigit():
+            print("Invalid input. Please enter a numeric value.")
+            continue
+
+        guess = int(guess)
+        if guess < min_range or guess > max_range:
+            print(f"Out of range. Please enter a number between {min_range} and {max_range}.")
+            continue
+
         attempts += 1
 
         if guess == random_number:
@@ -37,4 +48,3 @@ def guess_the_number():
         print("Thank you for playing!")
 
 guess_the_number()
-
